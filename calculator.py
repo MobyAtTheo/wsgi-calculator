@@ -53,11 +53,6 @@ def add(*args):
     # TODO: Fill sum with the correct value, based on the
     # args provided.
 
-    # i = 0
-    # result = 0
-    # for int(i) in args:
-    #     result += i
-
     numbers = [int(i) for i in args]
     result = str(sum(numbers))
 
@@ -69,9 +64,14 @@ def multiply(*args):
 
     # TODO: Fill sum with the correct value, based on the
     # args provided.
-    product = "0"
+    # i = 0
+    # result = 0
 
-    return product
+    result = 1
+    for i in args:
+        result = result * i
+
+    return result
 
 
 def divide(*args):
@@ -81,7 +81,10 @@ def divide(*args):
 
 
 def subtract(*args):
-    pass
+    arg_1 = args[0]
+    arg_2 = args[1]
+
+    return
 
 
 # TODO: Add functions for handling more arithmetic operations.
@@ -106,6 +109,8 @@ def resolve_path(path):
 
     path = path.strip("/").split("/")
     func_name = path.pop(0)
+    if func_name is None:
+        raise NameError
     func = routes.get(func_name)
 
     # args = ["25", "32"]
