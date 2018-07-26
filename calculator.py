@@ -153,6 +153,7 @@ def resolve_path(path):
         "cos": cos,
         "sin": sin,
         "tan": tan,
+        "": homepage,
     }
 
     path = path.strip("/").split("/")
@@ -165,6 +166,25 @@ def resolve_path(path):
     args = path
 
     return func, args
+
+
+def homepage():
+    """Main page / help output"""
+    body = """<h1>Functions supported:</h1>
+
+    <h3>function_name : example string</h3>
+    <pre>
+    add : localhost:8080/add/2/3/4/5/6
+    subtract localhost:8080/subtract/-2/2
+    multiply : localhost:8080/multiply/1/2/7
+    divide : localhost:8080/divide/45/2
+
+    tan localhost:8080/tan/45
+    cos : localhost:8080/cos/45
+    sin : localhost:8080/sin/45
+
+    </pre>"""
+    return str(body)
 
 
 def application(environ, start_response):
