@@ -188,7 +188,7 @@ def homepage():
 
 
 def application(environ, start_response):
-    # TODO wip: Your application code from the book database
+    # DONE: Your application code from the book database
     # work here as well! Remember that your application must
     # invoke start_response(status, headers) and also return
     # the body of the response in BYTE encoding.
@@ -207,8 +207,9 @@ def application(environ, start_response):
         func, args = resolve_path(path)
         body = func(*args)
         status = "200 OK"
-    # except TypeError:
-    #     pass
+    except TypeError:
+        status = "404 Not Found"
+        body = "<h1>Not Found</h1>"
     except NameError:
         status = "404 Not Found"
         body = "<h1>Not Found</h1>"
@@ -230,19 +231,6 @@ def application(environ, start_response):
 if __name__ == "__main__":
     # TODO: Insert the same boilerplate wsgiref simple
     # server creation that you used in the book database.
-    print("multiply: {}".format(multiply(3, 2.5)))
-    print("divide: {}".format(divide(10, 2)))
-    print("divide: {}".format(divide(0, 2)))
-    print("divide: {}".format(divide(2, 0)))
-    print("divide: {}".format(divide(0, 2)))
-    print("subtract: {}".format(subtract(0, 2)))
-    print("subtract: {}".format(subtract(-2, 1)))
-    print("subtract: {}".format(subtract(-2.3, 0, 8, 1, 1)))
-    print("cos: {}".format(cos(45, 30)))
-    print("cos: {}".format(cos(45)))
-    print("sin: {}".format(sin(45)))
-    print("tan: {}".format(tan(45)))
-
     from wsgiref.simple_server import make_server
 
     srv = make_server("localhost", 8080, application)
