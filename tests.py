@@ -9,12 +9,7 @@ class WebTestCase(unittest.TestCase):
 
     def setUp(self):
         self.server_process = subprocess.Popen(
-            [
-                "python",
-                "calculator.py"
-            ],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            ["python", "calculator.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE
         )
 
     def tearDown(self):
@@ -26,8 +21,8 @@ class WebTestCase(unittest.TestCase):
         Helper function to get a response from a given url, using http.client
         """
 
-        conn = http.client.HTTPConnection('localhost:8080')
-        conn.request('GET', url)
+        conn = http.client.HTTPConnection("localhost:8080")
+        conn.request("GET", url)
 
         response = conn.getresponse()
         self.assertEqual(200, response.getcode())
@@ -64,7 +59,7 @@ class WebTestCase(unittest.TestCase):
         response = self.get_response(path)
         self.assertEqual(200, response.getcode())
 
-        self.assertIn(str(a*b).encode(), response.read())
+        self.assertIn(str(a * b).encode(), response.read())
 
     def test_subtract_positive_result(self):
         """
@@ -119,12 +114,12 @@ class WebTestCase(unittest.TestCase):
         on how to use the page.
         """
 
-        response = self.get_response('/')
+        response = self.get_response("/")
         self.assertEqual(200, response.getcode())
 
         # We're just testing if the word "add" is present in the index
         self.assertIn("add".encode(), response.read())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

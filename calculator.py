@@ -49,9 +49,29 @@ def add(*args):
     # args provided.
     sum = "0"
 
-    return sum
+    return my_sum
+
+
+def multiply(*args):
+    """ Returns a STRING with the sum of the arguments """
+
+    # TODO: Fill sum with the correct value, based on the
+    # args provided.
+    product = "0"
+
+    return product
+
+
+def divide(*args):
+    pass
+
+
+def subtrace(*args):
+    pass
+
 
 # TODO: Add functions for handling more arithmetic operations.
+
 
 def resolve_path(path):
     """
@@ -63,22 +83,46 @@ def resolve_path(path):
     # examples provide the correct *syntax*, but you should
     # determine the actual values of func and args using the
     # path.
-    func = add
-    args = ['25', '32']
+
+    # path is something like add/3/5
+    # or 'multiply/2/10/''
+    webpath = [1, 2, 3]
+
+    webpath = path.split("/")
+    func = webpath[0]
+    # args = ["25", "32"]
+    args = [webpath[1], webpath[2]]
 
     return func, args
 
+
 def application(environ, start_response):
-    # TODO: Your application code from the book database
+    # TODO wip: Your application code from the book database
     # work here as well! Remember that your application must
     # invoke start_response(status, headers) and also return
     # the body of the response in BYTE encoding.
     #
+
+    # response_body = body % (
+    #      environ.get('SERVER_NAME', 'Unset'), # server name
+    #         ...
+    #      )
+    # status = '200 OK'
+    response_headers = [
+        ("Content-Type", "text/html"),
+        ("Content-Length", str(len(response_body))),
+    ]
+    path = environ.get
+
+    start_response(status, response_headers)
+    return [response_body.encode("utf8")]
+
     # TODO (bonus): Add error handling for a user attempting
     # to divide by zero.
     pass
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     # TODO: Insert the same boilerplate wsgiref simple
     # server creation that you used in the book database.
     pass
