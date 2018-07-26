@@ -1,3 +1,4 @@
+# /usr/bin/python3
 """
 For your homework this week, you'll be creating a wsgi application of
 your own.
@@ -44,12 +45,20 @@ To submit your homework:
 
 def add(*args):
     """ Returns a STRING with the sum of the arguments """
-
+    arg_1 = args[0]
+    arg_2 = args[1]
     # TODO: Fill sum with the correct value, based on the
     # args provided.
-    sum = "0"
 
-    return my_sum
+    # i = 0
+    # result = 0
+    # for int(i) in args:
+    #     result += i
+
+    numbers = [int(i) for i in args]
+    result = str(sum(numbers))
+
+    return result
 
 
 def multiply(*args):
@@ -63,6 +72,8 @@ def multiply(*args):
 
 
 def divide(*args):
+    arg_1 = args[0]
+    arg_2 = args[1]
     pass
 
 
@@ -78,7 +89,7 @@ def resolve_path(path):
     Should return two values: a callable and an iterable of
     arguments.
     """
-
+    # QA:
     # TODO: Provide correct values for func and args. The
     # examples provide the correct *syntax*, but you should
     # determine the actual values of func and args using the
@@ -86,12 +97,16 @@ def resolve_path(path):
 
     # path is something like add/3/5
     # or 'multiply/2/10/''
-    webpath = [1, 2, 3]
+    path = [1, 2, 3]
 
-    webpath = path.split("/")
-    func = webpath[0]
+    routes = {"add": add, "multiply": multiply, "subtract": subtract, "divide": divide}
+
+    path = path.split("/").split("/")
+    func_name = path.pop(0)
+
+    func = routes.get(func_name)
     # args = ["25", "32"]
-    args = [webpath[1], webpath[2]]
+    args = path
 
     return func, args
 
