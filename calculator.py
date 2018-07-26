@@ -59,7 +59,11 @@ def add(*args):
 
 
 def multiply(*args):
-    """ Returns a STRING with the sum of the arguments """
+    """ Returns a STRING with the sum of the arguments
+
+    *see subtract function logic for a more 'pythonic' way of solving the
+    setting of the default variable "result"
+    """
 
     # DONE: Fill sum with the correct value, based on the
     # args provided.
@@ -90,8 +94,8 @@ def divide(*args):
 
 def subtract(*args):
     i = 1.0
-    result = 1.0
-    for i in args:
+    result = float(args[0])
+    for i in args[1:]:
         result -= float(i)
 
     return str(int(result))
@@ -153,9 +157,10 @@ def resolve_path(path):
 
     path = path.strip("/").split("/")
     func_name = path.pop(0)
+
+    func = routes.get(func_name)
     if func_name is None:
         raise NameError
-    func = routes.get(func_name)
 
     args = path
 
@@ -182,6 +187,8 @@ def application(environ, start_response):
         func, args = resolve_path(path)
         body = func(*args)
         status = "200 OK"
+    # except TypeError:
+    #     pass
     except NameError:
         status = "404 Not Found"
         body = "<h1>Not Found</h1>"
