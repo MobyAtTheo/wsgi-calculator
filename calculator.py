@@ -44,13 +44,12 @@
 #
 # """
 import traceback
+import math
 
 
 def add(*args):
     """ Returns a STRING with the sum of the arguments """
-    arg_1 = args[0]
-    arg_2 = args[1]
-    # TODO: Fill sum with the correct value, based on the
+    # DONE: Fill sum with the correct value, based on the
     # args provided.
 
     numbers = [int(i) for i in args]
@@ -62,32 +61,70 @@ def add(*args):
 def multiply(*args):
     """ Returns a STRING with the sum of the arguments """
 
-    # TODO: Fill sum with the correct value, based on the
+    # DONE: Fill sum with the correct value, based on the
     # args provided.
     # i = 0
     # result = 0
 
+    i = 1
     result = 1
     for i in args:
-        result = result * i
+        result *= float(i)
 
-    return result
+    return str(int(result))
 
 
 def divide(*args):
-    arg_1 = args[0]
-    arg_2 = args[1]
-    pass
+
+    if len(args) > 2:
+        print("sorry only 2 inputs")
+    result = 1
+    for i in args:
+        try:
+            result = int(float(args[0]) / float(args[1]))
+        except ZeroDivisionError:
+            result = "Cannot Divide by Zero"
+
+    return str(result)
 
 
 def subtract(*args):
-    arg_1 = args[0]
-    arg_2 = args[1]
+    i = 1.0
+    result = 1.0
+    for i in args:
+        result -= float(i)
 
-    return
+    return str(int(result))
 
 
 # TODO: Add functions for handling more arithmetic operations.
+
+
+def cos(*args):
+    """Get cosine, input is in degrees"""
+    if len(args) > 1:
+        print("[*] cos: sorry only 1 inputs")
+    result = round(math.cos(math.radians(float(args[0]))), 3)
+
+    return str(result)
+
+
+def tan(*args):
+    """Get tangent, input is in degrees"""
+    if len(args) > 1:
+        print("[*] cos: sorry only 1 inputs")
+    result = round(math.tan(math.radians(float(args[0]))), 3)
+
+    return str(result)
+
+
+def sin(*args):
+    """Get sine, input is in degrees"""
+    if len(args) > 1:
+        print("[*] cos: sorry only 1 inputs")
+    result = round(math.sin(math.radians(float(args[0]))), 3)
+
+    return str(result)
 
 
 def resolve_path(path):
@@ -95,8 +132,7 @@ def resolve_path(path):
     Should return two values: a callable and an iterable of
     arguments.
     """
-    # QA:
-    # TODO: Provide correct values for func and args. The
+    # DONE: Provide correct values for func and args. The
     # examples provide the correct *syntax*, but you should
     # determine the actual values of func and args using the
     # path.
@@ -105,7 +141,15 @@ def resolve_path(path):
     # or 'multiply/2/10/''
     # path = [1, 2, 3]
 
-    routes = {"add": add, "multiply": multiply, "subtract": subtract, "divide": divide}
+    routes = {
+        "add": add,
+        "multiply": multiply,
+        "subtract": subtract,
+        "divide": divide,
+        "cos": cos,
+        "sin": sin,
+        "tan": tan,
+    }
 
     path = path.strip("/").split("/")
     func_name = path.pop(0)
@@ -113,7 +157,6 @@ def resolve_path(path):
         raise NameError
     func = routes.get(func_name)
 
-    # args = ["25", "32"]
     args = path
 
     return func, args
@@ -147,6 +190,10 @@ def application(environ, start_response):
         status = "500 Internal Server Error"
         body = "<h1>Internal Server Error</h1>"
         print(traceback.format_exc())
+    except ZeroDivisionError:
+        status = "500 Internal Server Error"
+        body = "<h1>Cannot divide by zero, please try again.</h1>"
+        pass
     finally:
         headers.append(("Content-length", str(len(body))))
         start_response(status, headers)
@@ -156,6 +203,19 @@ def application(environ, start_response):
 if __name__ == "__main__":
     # TODO: Insert the same boilerplate wsgiref simple
     # server creation that you used in the book database.
+    print("multiply: {}".format(multiply(3, 2.5)))
+    print("divide: {}".format(divide(10, 2)))
+    print("divide: {}".format(divide(0, 2)))
+    print("divide: {}".format(divide(2, 0)))
+    print("divide: {}".format(divide(0, 2)))
+    print("subtract: {}".format(subtract(0, 2)))
+    print("subtract: {}".format(subtract(-2, 1)))
+    print("subtract: {}".format(subtract(-2.3, 0, 8, 1, 1)))
+    print("cos: {}".format(cos(45, 30)))
+    print("cos: {}".format(cos(45)))
+    print("sin: {}".format(sin(45)))
+    print("tan: {}".format(tan(45)))
+
     from wsgiref.simple_server import make_server
 
     srv = make_server("localhost", 8080, application)
